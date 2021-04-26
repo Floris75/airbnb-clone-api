@@ -11,6 +11,6 @@ app.use((request, response) => {
     response.status(404).send('Sorry cant find that!');
   });
 
-app.listen(8080, () => {
+app.listen(process.env.APP_PORT, () => {
     console.log("Server running at port 8080")
 })
