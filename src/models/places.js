@@ -1,13 +1,12 @@
 const db = require("../config/database");
 
-exports.getByCity = (cityName, callback) => {
-    db.query(`SELECT * FROM places INNER JOIN cities ON places.city_id = cities.id_city WHERE cities.name_city = ${cityName};`, (error, result) => {
+exports.getByCity = (city, callback) => {
+    db.query(`SELECT * FROM cities INNER JOIN places ON cities.id_city = places.city_id WHERE name_city="${city}";`, (error, result) => {
         if (error) {
             console.log("error: ", error);
             callback(error, null);
             return;
           }
-      
           callback(null, result);
     })
 }
