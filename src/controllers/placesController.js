@@ -1,6 +1,7 @@
 const places = require("../models/places") 
 
 exports.createOne = (request, response) => {
+
     let {city_name, name_place, description, rooms, bathrooms, max_guests, price_by_night, user_id} = request.body;
     const role = "host";
     if (!role) {
@@ -41,6 +42,7 @@ exports.createOne = (request, response) => {
             })
         }
     }
+
 }
 
 exports.placeDetails = (request, response) => {
@@ -52,6 +54,21 @@ exports.placeDetails = (request, response) => {
         else {
             response.status(200).json({"place": place_info});
         }
+    })
+}
+
+//rechercher en fonction de dates specifiques
+exports.findRangeDates = (request, response) => {
+    const check_in  = request.query.check_in
+    const check_out = request.query.check_out
+    places.getRangeDates (check_in, check_out, (error, date_range) => {
+        if (error) {
+            response.send (error.message);
+        }
+        else {
+            response.status(200).json({"place": date_range});
+        }
+
 
 exports.searchByCity = (request, response) => {
     const cityName = request.query.city;
@@ -62,5 +79,6 @@ exports.searchByCity = (request, response) => {
             response.send("Il n'y a pas d'appartements disponibles dans cette ville.")
         }
         response.send(result);
+
     })
 }
