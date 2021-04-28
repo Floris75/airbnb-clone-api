@@ -83,3 +83,25 @@ exports.searchByCity = (request, response) => {
 
     })
 }
+
+exports.updatePlace = (request, response) => {
+    const {place_id} = request.params;
+    const {name_place, description, rooms, bathrooms, max_guests, price_by_night} = request.body;
+    const role = "host";
+    if (!role) {
+        response.status(401).json({message: "User not connected"})
+    }
+    else if (role === "guest") {
+        response.status(403).json({message: "Vous n'êtes pas autorisé à accéder à cette ressource"})
+    }
+    else {
+    places.modifyPlaceInfos(place_id, request.body, (error, result) => {
+        if (error) {
+            response.send (error.message);
+        }
+        else {
+            response.status(200).json({message: "modification ok", result});
+        }
+    })
+ }
+}

@@ -54,3 +54,15 @@ exports.getByCity = (city, callback) => {
           callback(null, result);
     })
 }
+
+exports.modifyPlaceInfos = (id, infos, callback) => {
+    database.query(`UPDATE places SET name_place="${infos.name_place}", description="${infos.description}", rooms=${infos.rooms}, bathrooms=${infos.bathrooms}, max_guests=${infos.max_guests}, price_by_night=${infos.price_by_night} WHERE id_place=${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result); 
+    })
+}
+
