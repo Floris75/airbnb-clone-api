@@ -1,12 +1,19 @@
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const model = require("../models/model");
 const secret = "719a7fa2bb664547aa56cfd7cc30a3f3c890df7214774b929420dd3c68dbca7332a7df8c89a844b1b865621012dcdbed";
 const maxage = Math.floor(Date.now() / 1000) + (60*60);
 
+
+
+const user = require("../models/model");
+
+
 exports.home = (request, response) => {   
     response.send ("hello world");
 }
+
 
 exports.authenticate = async (request, response) => {
     
@@ -76,4 +83,31 @@ exports.authenticate = async (request, response) => {
     }
 
     
+
+exports.signup = (request, response) => {
+
+    user.getByUserEmail(request.body, (error, result) => {
+        if (error) {
+            response.send(error.message);
+        } else if (result.length > 0) {
+            response.status(409).json({message: "Un utilisateur avec le même email existe déjà" })
+                        
+        } else {
+            const saltRounds = 10;
+            bcrypt.hash(request.body.password, saltRounds, (error, encryptedPassword) => {
+
+            if (error) {
+                response.send(error.message);
+            } 
+                user.userRegister(request.body, encryptedPassword, (error, result) => {
+                    if (error) {
+                    response.send(error.message);
+                    } else {
+                    response.status(201).json({message: "Success"})
+                    }
+                });
+            });
+        }
+    })
+
 }

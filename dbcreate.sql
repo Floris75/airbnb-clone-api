@@ -44,3 +44,18 @@ PRIMARY KEY (id_booking),
 FOREIGN KEY (user_id) references users(id_user),
 FOREIGN KEY (place_id) references places(id_place)
 );
+
+INSERT INTO cities values
+(1, "Naples"), 
+(2, "New-York");
+
+INSERT INTO users values
+(1, "james@gmail.com", "hello21", "james", "carter", "host"), 
+(2, "jess@gmail.com", "paris21", "jessica", "vall", "host");
+(3, "july@gmail.com", "sun21", "july", "fret", "tourist");
+
+INSERT INTO places VALUES
+(1, 1, 1, "my lovely house", "beautiful house in beautiful italian city", 3, 1, 7, 75, true), 
+(2, 1, 1, "little flat", "little appartement perfect for couple", 1, 1, 2, 35, true);
+
+INSERT INTO bookings VALUES(1, 1, 1, '2021-06-10', '2021-06-12');
