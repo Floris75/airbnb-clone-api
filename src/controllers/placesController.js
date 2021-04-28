@@ -68,7 +68,8 @@ exports.findRangeDates = (request, response) => {
         else {
             response.status(200).json({"place": date_range});
         }
-
+    })
+}
 
 exports.searchByCity = (request, response) => {
     const cityName = request.query.city;
