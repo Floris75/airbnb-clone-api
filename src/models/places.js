@@ -1,8 +1,11 @@
-const database = require("../config/database");
+
+const database = require('../config/database');
+
 
 
 exports.addOne = (place, callback) => {
     database.query(`INSERT INTO places (user_id, city_id, name_place, description, rooms, bathrooms, max_guests, price_by_night) VALUES (${place.user_id}, ${place.city_id}, "${place.name_place}", "${place.description}", "${place.rooms}", ${place.bathrooms}, ${place.max_guests}, ${place.price_by_night});`, (error, result) => {
+
         if (error) {
             console.log("error :", error);
             callback(error, null);
@@ -11,6 +14,7 @@ exports.addOne = (place, callback) => {
         callback(null, result);
     })
 }
+
 
 exports.getRangeDates = (id, callback) => { 
     database.query(`SELECT * id_place FROM bookings WHERE check_in="${dateArrivee}" AND check_out="${dateDepart}" ;`, (error, result) => {
@@ -54,3 +58,4 @@ exports.getByCity = (city, callback) => {
           callback(null, result);
     })
 }
+

@@ -1,3 +1,4 @@
+
 const places = require("../models/places") 
 
 exports.createOne = (request, response) => {
@@ -45,6 +46,7 @@ exports.createOne = (request, response) => {
 
 }
 
+
 exports.placeDetails = (request, response) => {
     const {place_id} = request.params
     places.getDetails (place_id, (error, place_info) => {
@@ -55,6 +57,7 @@ exports.placeDetails = (request, response) => {
             response.status(200).json({"place": place_info});
         }
     })
+
 }
 
 //rechercher en fonction de dates specifiques
@@ -82,4 +85,5 @@ exports.searchByCity = (request, response) => {
         response.send(result);
 
     })
+
 }
