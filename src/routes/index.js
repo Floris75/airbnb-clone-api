@@ -8,6 +8,7 @@ router.get("/", controller.home);
 router.get("/places/:place_id", placesController.placeDetails);
 router.post("/places", placesController.createOne);
 router.get("/places", placesController.searchByCity);
+router.get("/host", placesController.searchHostPlaces)
 
 router.use("*", (request, response) => {
     response.status(404).json({message: "La ressource demandée est introuvable"});

@@ -24,3 +24,4 @@ exports.userRegister = (requestBody, encryptedPassword, callback) => {
         callback(null, result);
     });
 }
+
