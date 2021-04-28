@@ -17,6 +17,7 @@ router.post("/signin", controller.connexion);
 
 router.post("/places", placesController.createOne);
 router.get("/places", placesController.searchByCity);
+router.get("/host", placesController.searchHostPlaces)
 
 
 router.post("/bookings", bookingsController.bookFlat);

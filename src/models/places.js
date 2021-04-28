@@ -59,3 +59,14 @@ exports.getByCity = (city, callback) => {
     })
 }
 
+exports.getHostPlaces = (id, callback) => {
+    database.query(`SELECT * FROM places WHERE user_id=${id};`, (error, result) => {
+        if (error) {
+            console.log("error :", error);
+            callback(error, null);
+            return;
+        } 
+        callback(null, result);
+    })
+}
+

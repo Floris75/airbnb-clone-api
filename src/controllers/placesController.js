@@ -85,5 +85,20 @@ exports.searchByCity = (request, response) => {
         response.send(result);
 
     })
-
 }
+
+exports.searchHostPlaces = (request, response) => {
+    const user_id = 1;
+
+    places.getHostPlaces(user_id, (error, host_infos) => {
+        if (error) {
+        response.send(error.message);
+        } else {
+        response.status(200).json({place: host_infos});
+        }
+    })
+}
+
+
+
+
