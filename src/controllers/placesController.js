@@ -1,3 +1,4 @@
+
 const places = require("../models/places") 
 
 exports.createOne = (request, response) => {
@@ -45,6 +46,7 @@ exports.createOne = (request, response) => {
 
 }
 
+
 exports.placeDetails = (request, response) => {
     const {place_id} = request.params
     places.getDetails (place_id, (error, place_info) => {
@@ -55,6 +57,7 @@ exports.placeDetails = (request, response) => {
             response.status(200).json({"place": place_info});
         }
     })
+
 }
 
 //rechercher en fonction de dates specifiques
@@ -84,6 +87,7 @@ exports.searchByCity = (request, response) => {
     })
 }
 
+
 exports.updatePlace = (request, response) => {
     const {place_id} = request.params;
     const {name_place, description, rooms, bathrooms, max_guests, price_by_night} = request.body;
@@ -105,3 +109,19 @@ exports.updatePlace = (request, response) => {
     })
  }
 }
+
+exports.searchHostPlaces = (request, response) => {
+    const user_id = 1;
+
+    places.getHostPlaces(user_id, (error, host_infos) => {
+        if (error) {
+        response.send(error.message);
+        } else {
+        response.status(200).json({place: host_infos});
+        }
+    })
+}
+
+
+
+
