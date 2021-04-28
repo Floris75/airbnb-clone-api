@@ -19,6 +19,8 @@ exports.getRangeDates = (id, callback) => {
             return;    
         }
             callback(error, null);
+        })
+    }
 
 exports.getCityId = (city_name, callback) => {
     database.query(`SELECT id_city FROM cities WHERE name_city = "${city_name}";`, (error, result) => {
@@ -39,7 +41,8 @@ exports.getDetails = (id, callback) => {
             return;
         } 
         callback(null, result);
-
+    })
+}
 
 exports.getByCity = (city, callback) => {
     database.query(`SELECT * FROM cities INNER JOIN places ON cities.id_city = places.city_id WHERE name_city="${city}";`, (error, result) => {
