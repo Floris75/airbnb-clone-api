@@ -1,7 +1,7 @@
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const model = require("../models/model");
+
 const secret = "719a7fa2bb664547aa56cfd7cc30a3f3c890df7214774b929420dd3c68dbca7332a7df8c89a844b1b865621012dcdbed";
 const maxage = Math.floor(Date.now() / 1000) + (60*60);
 
@@ -15,7 +15,7 @@ exports.home = (request, response) => {
 }
 
 
-exports.authenticate = async (request, response) => {
+exports.connexion = async (request, response) => {
     
     const email = request.body.email;
     const password = request.body.password;
@@ -25,7 +25,7 @@ exports.authenticate = async (request, response) => {
     }
     
     else {
-    model.getByMail(request.body, async (error, result) => {
+    user.getByUserEmail(request.body, async (error, result) => {
         if (error) {
             response.send(error.message);
         }
@@ -80,7 +80,8 @@ exports.authenticate = async (request, response) => {
             });
         }
     });
-    }
+}
+}
 
     
 
@@ -111,3 +112,5 @@ exports.signup = (request, response) => {
     })
 
 }
+
+

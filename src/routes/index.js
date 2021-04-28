@@ -11,11 +11,8 @@ router.post("/signup", controller.signup);
 router.get("/", controller.home);
 router.get("/places/:place_id", placesController.placeDetails);
 
+router.post("/signin", controller.connexion);
 
-router.post('/signin', function(req, res){
-    controller.connexion;
-    response.send("Connexion");
-  });
 
 
 router.post("/places", placesController.createOne);
