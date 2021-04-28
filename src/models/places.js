@@ -30,5 +30,16 @@ exports.getDetails = (id, callback) => {
             return;
         } 
         callback(null, result);
+
+
+exports.getByCity = (city, callback) => {
+    database.query(`SELECT * FROM cities INNER JOIN places ON cities.id_city = places.city_id WHERE name_city="${city}";`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result);
+
     })
 }
