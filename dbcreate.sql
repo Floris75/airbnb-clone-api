@@ -57,3 +57,5 @@ INSERT INTO users values
 INSERT INTO places VALUES
 (1, 1, 1, "my lovely house", "beautiful house in beautiful italian city", 3, 1, 7, 75, true), 
 (2, 1, 1, "little flat", "little appartement perfect for couple", 1, 1, 2, 35, true);
+
+INSERT INTO bookings VALUES(1, 1, 1, '2021-06-10', '2021-06-12');
