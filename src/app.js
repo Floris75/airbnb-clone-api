@@ -14,16 +14,9 @@ app.use(session({
     cookie: { secure: false },
 })
 );
-
 app.use(json());
 app.use(morgan());
 app.use("/api", router);
-
-
-app.use((request, response) => {
-    response.status(404).send('Sorry cant find that!');
-  });
-
 
 app.listen(process.env.APP_PORT, () => {
     console.log("Server running at port 8080")

@@ -3,13 +3,14 @@ const router = express.Router();
 const controller = require("../controllers/controller");
 const placesController = require("../controllers/placesController");
 
-
+router.post("/signup", controller.signup);
 router.get("/", controller.home);
 router.get("/places/:place_id", placesController.placeDetails);
-router.get("/places", placesController.findRangeDates);
+router.post("/places", placesController.createOne);
+router.get("/places", placesController.searchByCity);
 
-router.post("/signup", controller.signup);
-
-
+router.use("*", (request, response) => {
+    response.status(404).json({message: "La ressource demandée est introuvable"});
+  });
 
 module.exports = router;

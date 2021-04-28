@@ -34,7 +34,3 @@ exports.signup = (request, response) => {
         }
     })
 }
-
-
-
-
