@@ -59,3 +59,7 @@ INSERT INTO places VALUES
 (2, 1, 1, "little flat", "little appartement perfect for couple", 1, 1, 2, 35, true);
 
 INSERT INTO bookings VALUES(1, 1, 1, '2021-06-10', '2021-06-12');
+
+UPDATE places SET name_place="cosy little flat", description="little and confortable flat perfect for couple", rooms=2, bathrooms=2, max_guests=3, price_by_night=36 WHERE id_place=2;
+
+UPDATE places SET name_place="little flat", description="little appartement perfect for couple", rooms=1, bathrooms=1, max_guests=2, price_by_night=35 WHERE id_place=2;
