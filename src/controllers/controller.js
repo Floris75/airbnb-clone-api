@@ -8,7 +8,7 @@ exports.home = (request, response) => {
     response.send ("hello world");
 }
 
-exports.authenticate = (request, response) => {
+exports.authenticate = async (request, response) => {
     
     const email = request.body.email;
     const password = request.body.password;
