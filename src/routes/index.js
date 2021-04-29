@@ -22,6 +22,7 @@ router.patch("/places/:place_id", placesController.updatePlace);
 router.get("/cities", controller.getCities)
 
 router.get("/bookings", bookingsController.searchResasByFlat);
+router.delete("/bookings/:id_booking", bookingsController.deleteResa);
 
 router.use("*", (request, response) => {
     response.status(404).json({message: "La ressource demandée est introuvable"});

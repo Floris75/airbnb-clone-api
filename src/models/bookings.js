@@ -21,3 +21,14 @@ exports.getResasByFlat = (id, callback) => {
           callback(null, result);
     })
 }
+
+exports.deleteOneResa = (id, callback) => {
+    database.query(`DELETE FROM bookings WHERE id_booking=${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+        }
+        callback(null, result);
+    })
+}
