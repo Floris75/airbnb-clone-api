@@ -15,6 +15,7 @@ router.post("/places", placesController.createOne);
 router.get("/places", placesController.filterPlace);
 router.post("/bookings", bookingsController.bookFlat);
 router.patch("/places/:place_id", placesController.updatePlace);
+router.get("/cities", controller.getCities)
 
 router.use("*", (request, response) => {
     response.status(404).json({message: "La ressource demandée est introuvable"});
