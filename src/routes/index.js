@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/controller");
 const placesController = require("../controllers/placesController");
+const bookingsController = require("../controllers/bookingsController");
 
 const bookingsController = require("../controllers/bookingsController")
 
@@ -15,6 +16,11 @@ router.post("/signin", controller.connexion);
 
 router.get("/places/:place_id", placesController.placeDetails);
 router.post("/places", placesController.createOne);
+ 
+router.get("/places", placesController.searchByCity);
+router.get("/host", placesController.searchHostPlaces)
+router.get("/bookings", bookingsController.filterBooking)
+
 router.get("/places", placesController.filterPlace);
 
 router.post("/bookings", bookingsController.bookFlat);
@@ -23,6 +29,7 @@ router.get("/cities", controller.getCities)
 
 router.get("/bookings", bookingsController.searchResasByFlat);
 router.delete("/bookings/:id_booking", bookingsController.deleteResa);
+ 
 
 router.use("*", (request, response) => {
     response.status(404).json({message: "La ressource demandée est introuvable"});
