@@ -24,3 +24,20 @@ exports.bookFlat = (request, response) => {
     }
 }
 
+exports.searchResasByFlat = (request, response) => {
+    const place_id = request.query.place_id;
+    const role = request.user;
+    if (!role) {
+        response.status(401).json({message: "User not connected"})
+    } else {
+        bookings.getResasByFlat(place_id, (error, result) => {
+            if (error) {
+                response.send (error.message);
+            }
+            else {
+                response.status(200).json({message: "voici tous les bookings pour cet appartement", result});
+            }
+        })
+    }   
+}
+

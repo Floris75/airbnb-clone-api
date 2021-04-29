@@ -11,3 +11,13 @@ exports.bookPlace = (booking, callback) => {
     })
 }
 
+exports.getResasByFlat = (id, callback) => {
+    database.query(`SELECT * FROM bookings WHERE place_id=${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result);
+    })
+}
