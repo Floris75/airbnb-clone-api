@@ -1,7 +1,9 @@
+
 const database = require("../config/database");
 
 exports.getByUserEmail = (requestBody, callback) => {
     database.query(`SELECT * FROM users WHERE email="${requestBody.email}"`, (error, result) => {
+
         if (error) {
             callback(error, null);
             return;
@@ -9,6 +11,7 @@ exports.getByUserEmail = (requestBody, callback) => {
 
         callback(null, result);
     });
+
 }
 
 exports.userRegister = (requestBody, encryptedPassword, callback) => {
@@ -24,3 +27,4 @@ exports.userRegister = (requestBody, encryptedPassword, callback) => {
         callback(null, result);
     });
 }
+
