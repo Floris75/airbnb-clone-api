@@ -63,8 +63,14 @@ exports.placeDetails = (request, response) => {
 exports.filterPlace = (request, response) => {
     const filters = request.query;
     if (!filters) {
-        // fonction matildad
-        response.send('error');
+        const user_id = 1;
+        places.getHostPlaces(user_id, (error, host_infos) => {
+            if (error) {
+            response.send(error.message);
+            } else {
+            response.status(200).json({place: host_infos});
+            }
+        })
     }
     else {
         if (filters.length === 1) {
@@ -98,11 +104,6 @@ exports.filterPlace = (request, response) => {
     }
 }
 
-        response.send(result);
-
-    })
-}
-
 
 exports.updatePlace = (request, response) => {
     const {place_id} = request.params;
@@ -124,16 +125,4 @@ exports.updatePlace = (request, response) => {
         }
     })
  }
-}
-
-exports.searchHostPlaces = (request, response) => {
-    const user_id = 1;
-
-    places.getHostPlaces(user_id, (error, host_infos) => {
-        if (error) {
-        response.send(error.message);
-        } else {
-        response.status(200).json({place: host_infos});
-        }
-    })
 }
