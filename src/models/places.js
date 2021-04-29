@@ -16,13 +16,14 @@ exports.addOne = (place, callback) => {
 }
 
 
-exports.getRangeDates = (id, callback) => { 
-    database.query(`SELECT * id_place FROM bookings WHERE check_in="${dateArrivee}" AND check_out="${dateDepart}" ;`, (error, result) => {
+exports.getRangeDates = (dateArrivee, dateDepart, callback) => { 
+    console.log(dateDepart, dateArrivee)
+    database.query(`SELECT distinct * FROM places WHERE id_place NOT IN(SELECT place_id as id_place FROM bookings WHERE not DATEDIFF(bookings.check_in, "${dateDepart}") > 0 and not DATEDIFF(bookings.check_out, "${dateArrivee}") < 0);`, (error, result) => {
         if (error) {
             callback (error, null);
             return;    
         }
-            callback(error, null);
+            callback(null, result);
         })
     }
 

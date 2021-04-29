@@ -60,31 +60,48 @@ exports.placeDetails = (request, response) => {
 
 }
 
-//rechercher en fonction de dates specifiques
-exports.findRangeDates = (request, response) => {
-    const check_in  = request.query.check_in
-    const check_out = request.query.check_out
-    places.getRangeDates (check_in, check_out, (error, date_range) => {
-        if (error) {
-            response.send (error.message);
+exports.filterPlace = (request, response) => {
+    const filters = request.query;
+    if (!filters) {
+        const user_id = 1;
+        places.getHostPlaces(user_id, (error, host_infos) => {
+            if (error) {
+            response.send(error.message);
+            } else {
+            response.status(200).json({place: host_infos});
+            }
+        })
+    }
+    else {
+        if (filters.length === 1) {
+            const cityName = request.query.city;
+            places.getByCity(cityName, (error, result) => {
+                if (error) {
+                    response.send(error.message)
+                }
+                else {
+                    if (result.length === 0) {
+                        response.status(200).json({message: "Aucun n'appartement n'est disponible dans cette ville"});
+                    }
+                    else {
+                        response.status(200).json({result: result})
+                    }
+                }
+            })
         }
         else {
-            response.status(200).json({"place": date_range});
+            const check_in  = request.query.check_in
+            const check_out = request.query.check_out
+            places.getRangeDates (check_in, check_out, (error, places) => {
+                if (error) {
+                    response.send (error.message);
+                }
+                else {
+                    response.status(200).json({places: places})
+                }
+            })
         }
-    })
-}
-
-exports.searchByCity = (request, response) => {
-    const cityName = request.query.city;
-    console.log(cityName);
-
-    places.getByCity(cityName, (error, result) => {
-        if (error) {
-            response.send("Il n'y a pas d'appartements disponibles dans cette ville.")
-        }
-        response.send(result);
-
-    })
+    }
 }
 
 
@@ -109,19 +126,3 @@ exports.updatePlace = (request, response) => {
     })
  }
 }
-
-exports.searchHostPlaces = (request, response) => {
-    const user_id = 1;
-
-    places.getHostPlaces(user_id, (error, host_infos) => {
-        if (error) {
-        response.send(error.message);
-        } else {
-        response.status(200).json({place: host_infos});
-        }
-    })
-}
-
-
-
-
