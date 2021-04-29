@@ -1,14 +1,8 @@
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const secret = "719a7fa2bb664547aa56cfd7cc30a3f3c890df7214774b929420dd3c68dbca7332a7df8c89a844b1b865621012dcdbed";
 const maxage = Math.floor(Date.now() / 1000) + (60*60);
-
-
-
 const user = require("../models/model");
-
 
 exports.home = (request, response) => {   
     response.send ("hello world");
@@ -121,4 +115,13 @@ exports.signup = (request, response) => {
 
 }
 
-
+exports.getCities = (request,response) => {
+    user.getAllCities ((error, cities) =>{
+        if (error) {
+            response.send(error.message);
+        }
+        else {
+            response.status(200).json({cities: cities})
+        }
+    })
+}
