@@ -16,10 +16,8 @@ router.post("/signin", controller.connexion);
 
 
 router.post("/places", placesController.createOne);
-router.get("/places", placesController.searchByCity);
+router.get("/places", placesController.filterPlace);
 router.get("/host", placesController.searchHostPlaces)
-
-
 router.post("/bookings", bookingsController.bookFlat);
 router.patch("/places/:place_id", placesController.updatePlace);
 
