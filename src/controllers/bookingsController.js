@@ -41,3 +41,24 @@ exports.searchResasByFlat = (request, response) => {
     }   
 }
 
+exports.deleteResa = (request, response) => {
+    const {id_booking} = request.params;
+    const role = request.user;
+    if (!role) {
+        response.status(401).json({message: "User not connected"})
+    } else {
+        bookings.deleteOneResa(id_booking, (error, result) => {
+            console.log(result)
+            
+            if (error) {
+                response.send (error.message);
+            }
+            else if (result.affectedRows <= 0) {
+                response.status(404).json({message: "La ressource demandée n'existe pas"})
+            }
+            else {
+                response.status(204).json({message: "suppression ok"})
+            }
+        })
+    }   
+}
