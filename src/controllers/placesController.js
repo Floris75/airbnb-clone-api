@@ -1,11 +1,8 @@
-
 const places = require("../models/places") 
 
-
 exports.createOne = (request, response) => {
-
     let {city_name, name_place, description, rooms, bathrooms, max_guests, price_by_night, user_id} = request.body;
-    const role = "host";
+    const {role} = request.user;
     if (!role) {
         response.status(401).json({message: "User not connected"})
     }
@@ -64,7 +61,7 @@ exports.placeDetails = (request, response) => {
 exports.filterPlace = (request, response) => {
     const filters = request.query;
     if (!filters) {
-        const user_id = 1;
+        const user_id = request.user.userId;
         places.getHostPlaces(user_id, (error, host_infos) => {
             if (error) {
             response.send(error.message);
@@ -108,8 +105,7 @@ exports.filterPlace = (request, response) => {
 
 exports.updatePlace = (request, response) => {
     const {place_id} = request.params;
-    const {name_place, description, rooms, bathrooms, max_guests, price_by_night} = request.body;
-    const role = "host";
+    const {role} = request.user;
     if (!role) {
         response.status(401).json({message: "User not connected"})
     }
@@ -117,21 +113,20 @@ exports.updatePlace = (request, response) => {
         response.status(403).json({message: "Vous n'êtes pas autorisé à accéder à cette ressource"})
     }
     else {
-    places.modifyPlaceInfos(place_id, request.body, (error, result) => {
-        if (error) {
-            response.send (error.message);
-        }
-        else {
-            response.status(200).json({message: "modification ok", result});
-        }
-    })
+        places.modifyPlaceInfos(place_id, request.body, (error, result) => {
+            if (error) {
+                response.send (error.message);
+            }
+            else {
+                response.status(200).json({message: "modification ok", result});
+            }
+        })
     }
 }
 
 exports.placeDelete = (request, response) => {
     const {place_id} = request.params;
-    const role = "host";
-    
+    const {role} = request.user;    
     if (!role) {
         response.status(401).json({message: "User not connected"})
     }

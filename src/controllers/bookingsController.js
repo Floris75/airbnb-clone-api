@@ -2,7 +2,7 @@ const bookings = require("../models/bookings");
 
 exports.bookFlat = (request, response) => {
     const {user_id, place_id, check_in, check_out} = request.body;
-    const role = "guest";
+    const {role} = request.user;
     if (!role) {
         response.status(401).json({message: "User not connected"})
     }
@@ -31,13 +31,13 @@ exports.filterBooking = (request, response) => {
         if (!role) {
             response.status(401).json({message: "User not connected"})
         } else if (role === "guest") {
-            const user_id = 2;
+            const user_id = request.user.userId;
             bookings.getBookings(user_id, (error, booking_infos) => {
                 response.status(200).json({booking: booking_infos});
             })
 
         } else {
-            const user_id = 1;
+            const user_id = request.user.userId;
             bookings.getAvailablePlaces(user_id, (error, places_infos) => {
                 response.status(200).json({booking: places_infos});
         
@@ -46,7 +46,7 @@ exports.filterBooking = (request, response) => {
     }
     else {
         const place_id = request.query.place_id;
-        const role = request.user;
+        const {role} = request.user;
         if (!role) {
             response.status(401).json({message: "User not connected"})
         } else {
@@ -64,7 +64,7 @@ exports.filterBooking = (request, response) => {
 
 exports.deleteResa = (request, response) => {
     const {id_booking} = request.params;
-    const role = request.user;
+    const {role} = request.user;
     if (!role) {
         response.status(401).json({message: "User not connected"})
     } else {
