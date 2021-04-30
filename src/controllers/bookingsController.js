@@ -25,39 +25,41 @@ exports.bookFlat = (request, response) => {
 }
 
 exports.filterBooking = (request, response) => {
-    const { role } = request.body;
-    if (!role) {
-        response.status(401).json({message: "User not connected"})
-    } else if (role === "guest") {
-        const user_id = 2;
-        bookings.getBookings(user_id, (error, booking_infos) => {
-            response.status(200).json({booking: booking_infos});
-        })
+    const filter = request.query;
+    if (!filter) {
+        const { role } = request.body;
+        if (!role) {
+            response.status(401).json({message: "User not connected"})
+        } else if (role === "guest") {
+            const user_id = 2;
+            bookings.getBookings(user_id, (error, booking_infos) => {
+                response.status(200).json({booking: booking_infos});
+            })
 
-    } else {
-        const user_id = 1;
-        bookings.getAvailablePlaces(user_id, (error, places_infos) => {
-            response.status(200).json({booking: places_infos});
-       
-        })
+        } else {
+            const user_id = 1;
+            bookings.getAvailablePlaces(user_id, (error, places_infos) => {
+                response.status(200).json({booking: places_infos});
+        
+            })
+        }
     }
-}
-
-exports.searchResasByFlat = (request, response) => {
-    const place_id = request.query.place_id;
-    const role = request.user;
-    if (!role) {
-        response.status(401).json({message: "User not connected"})
-    } else {
-        bookings.getResasByFlat(place_id, (error, result) => {
-            if (error) {
-                response.send (error.message);
-            }
-            else {
-                response.status(200).json({message: "voici tous les bookings pour cet appartement", result});
-            }
-        })
-    }   
+    else {
+        const place_id = request.query.place_id;
+        const role = request.user;
+        if (!role) {
+            response.status(401).json({message: "User not connected"})
+        } else {
+            bookings.getResasByFlat(place_id, (error, result) => {
+                if (error) {
+                    response.send (error.message);
+                }
+                else {
+                    response.status(200).json({message: "voici tous les bookings pour cet appartement", result});
+                }
+            })
+        }   
+    }
 }
 
 exports.deleteResa = (request, response) => {

@@ -125,8 +125,7 @@ exports.updatePlace = (request, response) => {
             response.status(200).json({message: "modification ok", result});
         }
     })
-
-
+    }
 }
 
 exports.placeDelete = (request, response) => {
@@ -158,8 +157,3 @@ exports.placeDelete = (request, response) => {
         })       
     }
 }
-
-
- }
-}
-
