@@ -1,6 +1,7 @@
 
 const places = require("../models/places") 
 
+
 exports.createOne = (request, response) => {
 
     let {city_name, name_place, description, rooms, bathrooms, max_guests, price_by_night, user_id} = request.body;
@@ -124,5 +125,41 @@ exports.updatePlace = (request, response) => {
             response.status(200).json({message: "modification ok", result});
         }
     })
+
+
+}
+
+exports.placeDelete = (request, response) => {
+    const {place_id} = request.params;
+    const role = "host";
+    
+    if (!role) {
+        response.status(401).json({message: "User not connected"})
+    }
+    else if (role === "guest") {
+        response.status(403).json({message: "Vous n'êtes pas autorisé à accéder à cette ressource"})
+    }
+    else {
+
+        places.deleteBooking (place_id,  (error, result)=>{
+            if (error) {
+                response.send (error.message);
+            }
+            else {
+                places.delete(place_id,  (error, result) => {
+                    if (error) {
+                    response.send (error.message);
+                    }
+                    else {
+                    response.status(200).json({message: "suppression ", result});
+                    }
+                })
+            }
+        })       
+    }
+}
+
+
  }
 }
+

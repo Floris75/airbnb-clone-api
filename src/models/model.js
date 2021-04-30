@@ -24,6 +24,10 @@ exports.userRegister = (requestBody, encryptedPassword, callback) => {
     });
 }
 
+
+
+
+
 exports.getAllCities = (callback) =>{
     database.query("SELECT * FROM cities;", (error, result) => {
         if (error) {
@@ -33,3 +37,4 @@ exports.getAllCities = (callback) =>{
         callback(null, result);
     });
 }
+

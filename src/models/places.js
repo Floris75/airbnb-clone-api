@@ -60,8 +60,24 @@ exports.getByCity = (city, callback) => {
     })
 }
 
+
+exports.getDetails = (id, callback) => {
+    database.query(`SELECT * from places where id_place=${id};`, (error, result) => {
+        if (error) {
+            console.log("error :", error);
+            callback(error, null);
+            return;
+        } 
+        callback(null, result);
+    })
+}
+
+exports.delete = (id,  callback) => {
+    database.query(`DELETE  FROM places WHERE id_place = ${id};`, (error, result) => {
+
 exports.modifyPlaceInfos = (id, infos, callback) => {
     database.query(`UPDATE places SET name_place="${infos.name_place}", description="${infos.description}", rooms=${infos.rooms}, bathrooms=${infos.bathrooms}, max_guests=${infos.max_guests}, price_by_night=${infos.price_by_night} WHERE id_place=${id};`, (error, result) => {
+
         if (error) {
             console.log("error: ", error);
             callback(error, null);
@@ -70,6 +86,24 @@ exports.modifyPlaceInfos = (id, infos, callback) => {
           callback(null, result); 
     })
 }
+
+
+exports.deleteBooking = (id,  callback) => {
+    console.log(callback);
+    database.query(`DELETE  FROM bookings WHERE place_id = ${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result); 
+    })
+}
+
+
+
+
+
 
 exports.getHostPlaces = (id, callback) => {
     database.query(`SELECT * FROM places WHERE user_id=${id};`, (error, result) => {
@@ -82,4 +116,5 @@ exports.getHostPlaces = (id, callback) => {
 
     })
 }
+
 
