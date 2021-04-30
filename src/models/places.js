@@ -81,5 +81,19 @@ exports.delete = (id,  callback) => {
     })
 }
 
+exports.deleteBooking = (id,  callback) => {
+    console.log(callback);
+    database.query(`DELETE  FROM bookings WHERE place_id = ${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result); 
+    })
+}
+
+
+
 
 
