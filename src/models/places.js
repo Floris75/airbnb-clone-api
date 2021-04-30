@@ -16,13 +16,14 @@ exports.addOne = (place, callback) => {
 }
 
 
-exports.getRangeDates = (id, callback) => { 
-    database.query(`SELECT * id_place FROM bookings WHERE check_in="${dateArrivee}" AND check_out="${dateDepart}" ;`, (error, result) => {
+exports.getRangeDates = (dateArrivee, dateDepart, callback) => { 
+    console.log(dateDepart, dateArrivee)
+    database.query(`SELECT distinct * FROM places WHERE id_place NOT IN(SELECT place_id as id_place FROM bookings WHERE not DATEDIFF(bookings.check_in, "${dateDepart}") > 0 and not DATEDIFF(bookings.check_out, "${dateArrivee}") < 0);`, (error, result) => {
         if (error) {
             callback (error, null);
             return;    
         }
-            callback(error, null);
+            callback(null, result);
         })
     }
 
@@ -59,6 +60,7 @@ exports.getByCity = (city, callback) => {
     })
 }
 
+
 exports.getDetails = (id, callback) => {
     database.query(`SELECT * from places where id_place=${id};`, (error, result) => {
         if (error) {
@@ -72,6 +74,10 @@ exports.getDetails = (id, callback) => {
 
 exports.delete = (id,  callback) => {
     database.query(`DELETE  FROM places WHERE id_place = ${id};`, (error, result) => {
+
+exports.modifyPlaceInfos = (id, infos, callback) => {
+    database.query(`UPDATE places SET name_place="${infos.name_place}", description="${infos.description}", rooms=${infos.rooms}, bathrooms=${infos.bathrooms}, max_guests=${infos.max_guests}, price_by_night=${infos.price_by_night} WHERE id_place=${id};`, (error, result) => {
+
         if (error) {
             console.log("error: ", error);
             callback(error, null);
@@ -80,6 +86,7 @@ exports.delete = (id,  callback) => {
           callback(null, result); 
     })
 }
+
 
 exports.deleteBooking = (id,  callback) => {
     console.log(callback);
@@ -95,5 +102,19 @@ exports.deleteBooking = (id,  callback) => {
 
 
 
+
+
+
+exports.getHostPlaces = (id, callback) => {
+    database.query(`SELECT * FROM places WHERE user_id=${id};`, (error, result) => {
+        if (error) {
+            console.log("error :", error);
+            callback(error, null);
+            return;
+        } 
+        callback(null, result);
+
+    })
+}
 
 

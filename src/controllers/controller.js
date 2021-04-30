@@ -1,14 +1,8 @@
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const secret = "719a7fa2bb664547aa56cfd7cc30a3f3c890df7214774b929420dd3c68dbca7332a7df8c89a844b1b865621012dcdbed";
 const maxage = Math.floor(Date.now() / 1000) + (60*60);
-
-
-
 const user = require("../models/model");
-
 
 exports.home = (request, response) => {   
     response.send ("hello world");
@@ -89,28 +83,45 @@ exports.signup = (request, response) => {
 
     user.getByUserEmail(request.body, (error, result) => {
         if (error) {
-            response.send(error.message);
+        response.send(error.message);
         } else if (result.length > 0) {
             response.status(409).json({message: "Un utilisateur avec le même email existe déjà" })
                         
-        } else {
-            const saltRounds = 10;
-            bcrypt.hash(request.body.password, saltRounds, (error, encryptedPassword) => {
+            } else {
+                if (typeof first_name !== string) {
+                response.status(400).json({message: "Le champ first_name doit être une chaîne de caractères"})
+            
+                } else if ( !first_name ) {
+                    response.status(400).json({message: "Le champ first_name n'est pas n'est pas renseigné"})
 
-            if (error) {
-                response.send(error.message);
-            } 
-                user.userRegister(request.body, encryptedPassword, (error, result) => {
+                } else {
+                const saltRounds = 10;
+                bcrypt.hash(request.body.password, saltRounds, (error, encryptedPassword) => {
+
                     if (error) {
                     response.send(error.message);
-                    } else {
-                    response.status(201).json({message: "Success"})
-                    }
+                    } 
+                    user.userRegister(request.body, encryptedPassword, (error, result) => {
+                        if (error) {
+                        response.send(error.message);
+                        } else {
+                        response.status(201).json({message: "Success"})
+                        }
+                    });
                 });
-            });
+            }
         }
     })
 
 }
 
-
+exports.getCities = (request,response) => {
+    user.getAllCities ((error, cities) =>{
+        if (error) {
+            response.send(error.message);
+        }
+        else {
+            response.status(200).json({cities: cities})
+        }
+    })
+}
