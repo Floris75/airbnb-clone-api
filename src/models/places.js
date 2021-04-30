@@ -59,3 +59,27 @@ exports.getByCity = (city, callback) => {
     })
 }
 
+exports.getDetails = (id, callback) => {
+    database.query(`SELECT * from places where id_place=${id};`, (error, result) => {
+        if (error) {
+            console.log("error :", error);
+            callback(error, null);
+            return;
+        } 
+        callback(null, result);
+    })
+}
+
+exports.delete = (id,  callback) => {
+    database.query(`DELETE  FROM places WHERE id_place = ${id};`, (error, result) => {
+        if (error) {
+            console.log("error: ", error);
+            callback(error, null);
+            return;
+          }
+          callback(null, result); 
+    })
+}
+
+
+
