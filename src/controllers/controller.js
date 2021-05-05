@@ -70,12 +70,13 @@ exports.connexion = async (request, response) => {
 
 exports.signup = (request, response) => {
     user.getByUserEmail(request.body, (error, result) => {
+        const {first_name} = request.body;
         if (error) {
         response.send(error.message);
         } else if (result.length > 0) {
             response.status(409).json({message: "Un utilisateur avec le même email existe déjà" })                     
             } else {
-                if (typeof first_name !== string) {
+                if (typeof first_name !== "string") {
                 response.status(400).json({message: "Le champ first_name doit être une chaîne de caractères"})            
                 } else if ( !first_name ) {
                     response.status(400).json({message: "Le champ first_name n'est pas n'est pas renseigné"})

@@ -1,6 +1,7 @@
 
 const { json } = require("express");
 require('dotenv').config();
+const cors = require("cors");
 
 
 const express = require("express");
@@ -10,7 +11,7 @@ const session = require("express-session");
 const router = require("./routes");
 const app = express();
 
-
+app.use(cors());
 app.use(session({
     secret: "secret",
     resave: false,
