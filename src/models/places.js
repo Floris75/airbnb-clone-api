@@ -124,4 +124,15 @@ exports.getHostPlaces = (id, callback) => {
     })
 }
 
+exports.createCity = (name, callback) => {
+    database.query(`INSERT INTO cities(name_city) VALUES ("${name}")`, (error, result) => {
+        if (error) {
+            console.log("error :", error);
+            callback(error, null);
+            return;
+        } 
+        callback(null, result);
+
+    })
+}
 

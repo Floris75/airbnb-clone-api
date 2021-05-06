@@ -18,26 +18,45 @@ exports.createOne = (request, response) => {
                 if (error) {
                     response.send (error.message);
                 }
-                const city_id = id_city[0].id_city;
-                const info_place = {
-                    user_id,
-                    city_id, 
-                    name_place,
-                    description, 
-                    rooms, 
-                    bathrooms, 
-                    max_guests, 
-                    price_by_night
-                }
-                console.log(info_place)
-                places.addOne (info_place, (error, result) => {
-                    if (error) {
-                        response.send (error.message);
+                else {
+                    let city_id;
+                    if (id_city.length === 0) {
+                        places.createCity (city_name, (error, result) => {
+                            if (error) {
+                                response.send (error.message);
+                            }
+                            places.getCityId (city_name, (error, id_city) => {
+                                if (error) {
+                                    response.send (error.message);
+                                }
+                                else {
+                                    city_id = id_city[0].id_city;
+                                }
+                            })
+                        })
                     }
                     else {
-                        response.status(201).json({message: "Creation success" })
+                        city_id = id_city[0].id_city;
                     }
-                })
+                    const info_place = {
+                        user_id,
+                        city_id, 
+                        name_place,
+                        description, 
+                        rooms, 
+                        bathrooms, 
+                        max_guests, 
+                        price_by_night
+                    }
+                    places.addOne (info_place, (error, result) => {
+                        if (error) {
+                            response.send (error.message);
+                        }
+                        else {
+                            response.status(201).json({message: "Creation success" })
+                        }
+                    })
+                }
             })
         }
     }
