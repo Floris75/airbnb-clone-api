@@ -54,6 +54,7 @@ exports.connexion = async (request, response) => {
                                 response.status(200).json(
                                     { token: token, 
                                         user: {
+                                            userId: user.userId,
                                             first_name : user.first_name,
                                             last_name : user.last_name,
                                             role: user.role,
