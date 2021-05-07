@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
-const maxage = Math.floor(Date.now() / 1000) + (60*60);
 const user = require("../models/model");
 
 exports.home = (request, response) => {   
@@ -37,10 +36,9 @@ exports.connexion = async (request, response) => {
                             last_name: result[0].last_name,
                             userId: result[0].id_user,
                             role : result[0].role,
-                            email : result[0].email,
-                            exp : maxage                     
+                            email : result[0].email                    
                         }
-                        jwt.sign(user, secret, (error, token) => {
+                        jwt.sign(user, secret, {expiresIn: "24h"}, (error, token) => {
                             if (error) {
                                 response.send(error.message);
                             }
@@ -51,6 +49,7 @@ exports.connexion = async (request, response) => {
                                     userId: result[0].id_user,
                                     role : result[0].role    
                                 };
+                                console.log(token)
                                 response.status(200).json(
                                     { token: token, 
                                         user: {
@@ -58,7 +57,7 @@ exports.connexion = async (request, response) => {
                                             first_name : user.first_name,
                                             last_name : user.last_name,
                                             role: user.role,
-                                            email: user.email
+                                            email: user.email,
                                         } });    
                             }
                         });

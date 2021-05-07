@@ -3,8 +3,8 @@ const secret = process.env.SECRET;
 
 const isAuth = (request, response, next) => {
     const token = request.headers.authorization.slice(7);
-    if (!token) {
-        next()
+    if (token === undefined) {
+        next() 
     }
     else {
         jwt.verify(token, secret, (error, user) => {
